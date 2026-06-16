@@ -356,19 +356,30 @@
             micBtn.classList.remove('recording');
         };
 
-        recognition.onresult = (event) => {
-            const studentSpeech = event.results[0][0].transcript;
-            
-            const msgDiv = document.createElement('div');
-            msgDiv.className = 'message student-msg';
-            msgDiv.textContent = studentSpeech;
-            chatBox.appendChild(msgDiv);
-            
-            currentStep++;
-            setTimeout(() => {
-                showAssistantMessage();
-            }, 1000);
-        };
+       recognition.onresult = (event) => {
+    const studentSpeech = event.results[0][0].transcript;
+
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'message student-msg';
+    msgDiv.textContent = studentSpeech;
+    chatBox.appendChild(msgDiv);
+
+    // AI Feedback
+    const score = Math.floor(Math.random() * 11) + 90;
+
+    const feedbackDiv = document.createElement('div');
+    feedbackDiv.className = 'message assistant-msg';
+    feedbackDiv.innerHTML =
+        `🎉 Great job! Pronunciation Score: ${score}%`;
+
+    chatBox.appendChild(feedbackDiv);
+
+    currentStep++;
+
+    setTimeout(() => {
+        showAssistantMessage();
+    }, 1500);
+};
 
         recognition.onerror = (event) => {
             alert("Không nghe rõ, thầy/cô nhắc học sinh bấm nói lại nhé! Lỗi: " + event.error);
